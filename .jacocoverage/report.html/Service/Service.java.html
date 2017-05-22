@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Service.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;HealthPrediction&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Service</a> &gt; <span class="el_source">Service.java</span></div><h1>Service.java</h1><pre class="source lang-java linenums">
+package Service;
+
+import ConnectDB.ConnectDB;
+import bean.Appointment;
+import bean.DoctorBean;
+import bean.LoginBean;
+import bean.PatientBean;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+<span class="nc" id="L17">public class Service {</span>
+<span class="nc" id="L18">    int i=0;double n;</span>
+    
+    public boolean login(String userName, String password)
+    {
+       
+<span class="nc" id="L23">        boolean flag=false;</span>
+        try
+        {
+<span class="nc" id="L26">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L27">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L28">            String query=&quot;select * from login&quot;;</span>
+<span class="nc" id="L29">            ResultSet rs=stmt.executeQuery(query);</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            while(rs.next())</span>
+            {
+<span class="nc" id="L32">                String name=rs.getString(&quot;UserName&quot;);</span>
+<span class="nc" id="L33">                String pass=rs.getString(&quot;password&quot;);</span>
+                
+<span class="nc bnc" id="L35" title="All 4 branches missed.">                if(userName.equals(name) &amp;&amp; password.equals(pass))</span>
+                {
+                    
+<span class="nc" id="L38">                    flag=true;</span>
+<span class="nc" id="L39">                    break;</span>
+                }
+<span class="nc" id="L41">            }</span>
+        }
+<span class="nc" id="L43">        catch(Exception e)</span>
+        {
+<span class="nc" id="L45">                System.out.println(&quot;Exception in login - &quot; + e);</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">        return flag;</span>
+    }
+    
+    public int insertPatient(PatientBean obj)
+    {
+<span class="nc" id="L52">        String gid=null;</span>
+<span class="nc" id="L53">        int j=0,k=0;</span>
+        try
+        {
+<span class="nc" id="L56">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L57">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L58">            String query1=&quot;insert into Patient(Name,UserName,Age,Gender,Email,Address) values('&quot;+obj.getName()+&quot;','&quot;+obj.getUserName()+&quot;','&quot;+obj.getAge()+&quot;','&quot;+obj.getGender()+&quot;','&quot;+obj.getEmail()+&quot;','&quot;+obj.getAddress()+&quot;')&quot;;</span>
+<span class="nc" id="L59">            j=stmt.executeUpdate(query1);   </span>
+        }
+<span class="nc" id="L61">        catch(Exception ex)</span>
+        {
+<span class="nc" id="L63">            System.out.println(&quot;Exception found in 'inserting Patient info'&quot;+ex);</span>
+<span class="nc" id="L64">        }</span>
+        
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (j&gt;0)</span>
+        {
+<span class="nc" id="L68">            i=i+1;</span>
+        }
+        else
+        {
+<span class="nc" id="L72">            System.out.println(&quot;NOT inserted in PATIENT table&quot;);</span>
+        }
+<span class="nc" id="L74">        return i;</span>
+        
+        
+    }
+    
+     public int insertDoctor(DoctorBean obj)
+    {
+<span class="nc" id="L81">        String gid=null;</span>
+<span class="nc" id="L82">        int j=0,k=0;</span>
+        try
+        {
+<span class="nc" id="L85">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L86">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L87">            String query1=&quot;insert into doctor(Name,UserName,Gender,PhoneNumber,Specialization,AvailabilityHour,Email,ClinicAddress) values('&quot;+obj.getName()+&quot;','&quot;+obj.getUserName()+&quot;','&quot;+obj.getGender()+&quot;', '&quot;+obj.getPhoneNumber()+&quot;','&quot;+obj.getSpecialization()+&quot;','&quot;+obj.getAvailabilityHour()+&quot;','&quot;+obj.getEmail()+&quot;','&quot;+obj.getClinicAddress()+&quot;')&quot;;</span>
+<span class="nc" id="L88">            j=stmt.executeUpdate(query1);   </span>
+        }
+<span class="nc" id="L90">        catch(Exception ex)</span>
+        {
+<span class="nc" id="L92">            System.out.println(&quot;Exception found in 'inserting Patient info'&quot;+ex);</span>
+<span class="nc" id="L93">        }</span>
+        
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (j&gt;0)</span>
+        {
+<span class="nc" id="L97">            i=i+1;</span>
+        }
+        else
+        {
+<span class="nc" id="L101">            System.out.println(&quot;NOT inserted in PATIENT table&quot;);</span>
+        }
+<span class="nc" id="L103">        return i;</span>
+        
+        
+    }
+     public ArrayList&lt;DoctorBean&gt; searchDoctors(String location, String gender) {
+<span class="nc" id="L108">        ArrayList&lt;DoctorBean&gt; doctorList = new ArrayList&lt;DoctorBean&gt;();</span>
+<span class="nc" id="L109">        Statement stmt = null;</span>
+        try {
+<span class="nc" id="L111">            Connection con = ConnectDB.connectToDB();</span>
+<span class="nc" id="L112">            stmt = con.createStatement();</span>
+<span class="nc" id="L113">            String query = &quot;select * from doctor where ClinicAddress like '%&quot;+location+&quot;%' and Gender='&quot;+gender+&quot;'&quot;;</span>
+<span class="nc" id="L114">            stmt = con.createStatement();</span>
+<span class="nc" id="L115">            ResultSet rs = stmt.executeQuery(query);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L117">                DoctorBean doctorInfo = new DoctorBean();</span>
+<span class="nc" id="L118">                doctorInfo.setName(rs.getString(&quot;Name&quot;));</span>
+<span class="nc" id="L119">                doctorInfo.setEmail(rs.getString(&quot;Email&quot;));</span>
+<span class="nc" id="L120">                doctorInfo.setClinicAddress(rs.getString(&quot;ClinicAddress&quot;));</span>
+<span class="nc" id="L121">                doctorInfo.setPhoneNumber(rs.getString(&quot;PhoneNumber&quot;));</span>
+<span class="nc" id="L122">                doctorInfo.setSpecialization(rs.getString(&quot;Specialization&quot;));</span>
+<span class="nc" id="L123">                doctorInfo.setAvailabilityHour(rs.getString(&quot;AvailabilityHour&quot;));</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                if(!doctorInfo.equals(null))</span>
+<span class="nc" id="L125">                    doctorList.add(doctorInfo);</span>
+<span class="nc" id="L126">            }</span>
+<span class="nc" id="L127">        } catch (Exception ex) {</span>
+<span class="nc" id="L128">            System.out.println(&quot;Exception found in 'Searching doctors'&quot; + ex);</span>
+        } finally {
+<span class="nc bnc" id="L130" title="All 6 branches missed.">            if (stmt != null) {</span>
+              //
+            }
+        }
+
+<span class="nc" id="L135">        return doctorList;</span>
+    }
+
+
+     
+     
+     
+     
+     
+     
+     public int updatePatientProfile(PatientBean obj,String userName){
+            try {
+<span class="nc bnc" id="L147" title="All 2 branches missed.">                if(!obj.equals(null)){</span>
+<span class="nc" id="L148">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L149">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L150">            String query=&quot;update patient set Name='&quot;+obj.getName()+&quot;', Age='&quot;+obj.getAge()+&quot;', Gender='&quot;+obj.getGender()</span>
+<span class="nc" id="L151">                    +&quot;', Address='&quot;+obj.getAddress()+&quot;', Email='&quot;+obj.getEmail()+&quot;' where userName='&quot;+userName+&quot;'&quot;;</span>
+<span class="nc" id="L152">           int i =  stmt.executeUpdate(query);</span>
+            
+            /*UPDATE `Patient` SET `PatientId`=[value-1],`Name`=[value-2],`Age`=[value-3],`Gender`=[value-4],
+            `Address`=[value-5],`Email`=[value-6],`UserName`=[value-7] WHERE 1*/
+                    }
+<span class="nc" id="L157">        }catch (Exception e){</span>
+            
+<span class="nc" id="L159">        }</span>
+         
+<span class="nc" id="L161">       return i;  </span>
+         
+         
+     }
+      public boolean feedback (String feedback, String username){
+        int i;
+<span class="nc" id="L167">        boolean result=false;</span>
+        try 
+        {
+<span class="nc" id="L170">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L171">             Statement stmt=con.createStatement();</span>
+<span class="nc" id="L172">             String query=&quot;UPDATE patient SET Feedback='&quot;+feedback+&quot;' WHERE UserName='&quot;+username+&quot;'&quot;; </span>
+<span class="nc" id="L173">             i=stmt.executeUpdate(query);</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">             if (i&gt;0){</span>
+<span class="nc" id="L175">                result=true;</span>
+                     }
+            
+            
+<span class="nc" id="L179">        } catch (Exception e) </span>
+        {
+<span class="nc" id="L181">            System.out.println(&quot;Exception in updating the password.&quot; + e);</span>
+<span class="nc" id="L182">        }</span>
+<span class="nc" id="L183">        return result;</span>
+    
+}
+     
+     
+     
+    public PatientBean retrievePatientData(String userName){
+<span class="nc" id="L190">          PatientBean patientProfile = new PatientBean();</span>
+        try {
+<span class="nc" id="L192">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L193">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L194">            String Query=&quot;select Name,Age,Gender,Email,Address FROM patient WHERE UserName='&quot;+userName+&quot;'&quot;;</span>
+<span class="nc" id="L195">            ResultSet rs=stmt.executeQuery(Query);</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">            while (rs.next()){</span>
+            
+                
+<span class="nc" id="L199">                patientProfile.setName(rs.getString(&quot;Name&quot;));</span>
+<span class="nc" id="L200">                patientProfile.setAge(rs.getInt(&quot;Age&quot;));</span>
+<span class="nc" id="L201">                patientProfile.setAddress(rs.getString(&quot;Address&quot;));</span>
+<span class="nc" id="L202">                patientProfile.setEmail(rs.getString(&quot;Email&quot;));</span>
+<span class="nc" id="L203">                System.out.println(rs.getString(&quot;Name&quot;));</span>
+<span class="nc" id="L204">                patientProfile.setGender(rs.getString(&quot;Gender&quot;));</span>
+                
+            }
+             
+                      
+            
+<span class="nc" id="L210">        } catch (SQLException ex) {</span>
+           
+<span class="nc" id="L212">        }</span>
+<span class="nc" id="L213">            return patientProfile;</span>
+        
+        
+    }
+   
+    
+    public int insertPatientLoginDetails(LoginBean obj)
+    {
+      
+<span class="nc" id="L222">        int j=0;</span>
+        try
+        {
+<span class="nc" id="L225">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L226">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L227">            String query=&quot;insert into login(UserName,password,type) values('&quot;+obj.getUserName()+&quot;','&quot;+obj.getPassword()+&quot;','&quot;+obj.getType()+&quot;')&quot;;</span>
+<span class="nc" id="L228">            j=stmt.executeUpdate(query);   </span>
+        }
+<span class="nc" id="L230">        catch(Exception ex)</span>
+        {
+<span class="nc" id="L232">            System.out.println(&quot;Exception found in 'inserting Patient Login Details'&quot; + ex);</span>
+<span class="nc" id="L233">        }</span>
+        
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (j&gt;0)</span>
+        {
+<span class="nc" id="L237">            i=i+1;</span>
+        }
+        else
+        {
+<span class="nc" id="L241">            System.out.println(&quot;NOT inserted Patient's details in LOGIN table&quot;);</span>
+        }
+<span class="nc" id="L243">        return i;</span>
+    }
+    
+    public int insertDoctorLoginDetails(LoginBean obj)
+    {
+      
+<span class="nc" id="L249">        int j=0;</span>
+        try
+        {
+<span class="nc" id="L252">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L253">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L254">            String query=&quot;insert into login(UserName,password,type) values('&quot;+obj.getUserName()+&quot;','&quot;+obj.getPassword()+&quot;','&quot;+obj.getType()+&quot;')&quot;;</span>
+<span class="nc" id="L255">            j=stmt.executeUpdate(query);   </span>
+        }
+<span class="nc" id="L257">        catch(Exception ex)</span>
+        {
+<span class="nc" id="L259">            System.out.println(&quot;Exception found in 'inserting Doctor Login Details'&quot; + ex);</span>
+<span class="nc" id="L260">        }</span>
+        
+<span class="nc bnc" id="L262" title="All 2 branches missed.">        if (j&gt;0)</span>
+        {
+<span class="nc" id="L264">            i=i+1;</span>
+        }
+        else
+        {
+<span class="nc" id="L268">            System.out.println(&quot;NOT inserted Doctor details in LOGIN table&quot;);</span>
+        }
+<span class="nc" id="L270">        return i;</span>
+    }
+     
+    
+    public LoginBean getUserType(String Username, String password)
+    {
+    
+<span class="nc" id="L277">        LoginBean bean = new LoginBean();</span>
+        try 
+        {
+<span class="nc" id="L280">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L281">             Statement stmt=con.createStatement();</span>
+<span class="nc" id="L282">             String query=&quot;select * from login where UserName='&quot;+Username+&quot;' and password='&quot;+password+&quot;'&quot;;</span>
+<span class="nc" id="L283">             ResultSet rs=stmt.executeQuery(query);</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">             while(rs.next())</span>
+             {
+                 
+<span class="nc" id="L287">                 int type=rs.getInt(&quot;type&quot;);</span>
+<span class="nc" id="L288">                 bean.setType(type);</span>
+<span class="nc" id="L289">             }</span>
+            
+<span class="nc" id="L291">        } catch (Exception e) </span>
+        {
+<span class="nc" id="L293">            System.out.println(&quot;Exception in getting User type while logging in.&quot; + e);</span>
+<span class="nc" id="L294">        }</span>
+<span class="nc" id="L295">        return bean;</span>
+    }
+    
+    public boolean checkUserName(String Username){
+<span class="nc" id="L299">        boolean result=false; </span>
+<span class="nc" id="L300">        LoginBean bean = new LoginBean();</span>
+        try 
+        {
+<span class="nc" id="L303">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L304">             Statement stmt=con.createStatement();</span>
+<span class="nc" id="L305">             String query=&quot;select * from Login where UserName='&quot;+Username+&quot;'&quot;;</span>
+<span class="nc" id="L306">             ResultSet rs=stmt.executeQuery(query);</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">             while(rs.next())</span>
+             {
+<span class="nc" id="L309">                 result=true;</span>
+                
+             }
+            
+<span class="nc" id="L313">        } catch (Exception e) </span>
+        {
+<span class="nc" id="L315">            System.out.println(&quot;Exception in getting User type while logging in.&quot; + e);</span>
+<span class="nc" id="L316">        }</span>
+        
+<span class="nc" id="L318">        return result;</span>
+    } 
+    public boolean updatePassword(String username, String password){
+        int i;
+<span class="nc" id="L322">        boolean result=false;</span>
+<span class="nc" id="L323">         LoginBean bean = new LoginBean();</span>
+        try 
+        {
+<span class="nc" id="L326">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L327">             Statement stmt=con.createStatement();</span>
+<span class="nc" id="L328">             String query=&quot;UPDATE login SET password='&quot;+password+&quot;'WHERE UserName='&quot;+username+&quot;'&quot;; </span>
+<span class="nc" id="L329">             i=stmt.executeUpdate(query);</span>
+<span class="nc bnc" id="L330" title="All 2 branches missed.">             if(i&gt;0){</span>
+<span class="nc" id="L331">                 result=true;</span>
+             }
+            
+<span class="nc" id="L334">        } catch (Exception e) </span>
+        {
+<span class="nc" id="L336">            System.out.println(&quot;Exception in updating the password.&quot; + e);</span>
+<span class="nc" id="L337">        }</span>
+<span class="nc" id="L338">        return result;</span>
+    }
+    
+    public ArrayList&lt;Appointment&gt; getAllAppointedPatient(String docEmail) {
+<span class="nc" id="L342">        ArrayList&lt;Appointment&gt; patientAppointedList =null;</span>
+<span class="nc" id="L343">        Statement stmt = null;</span>
+        try {
+<span class="nc" id="L345">            Connection con = ConnectDB.connectToDB();</span>
+<span class="nc" id="L346">            stmt = con.createStatement();</span>
+<span class="nc" id="L347">            String query = &quot;select * from appointment where docUserName = '&quot;+docEmail+&quot;'&quot;;</span>
+<span class="nc" id="L348">            stmt = con.createStatement();</span>
+<span class="nc" id="L349">            ResultSet rs = stmt.executeQuery(query);</span>
+<span class="nc" id="L350">              patientAppointedList=new ArrayList&lt;Appointment&gt;();</span>
+<span class="nc bnc" id="L351" title="All 2 branches missed.">            while (rs.next()) {</span>
+              
+<span class="nc" id="L353">                Appointment patientInfo = new Appointment();</span>
+<span class="nc" id="L354">                patientInfo.setName(rs.getString(&quot;name&quot;));</span>
+<span class="nc" id="L355">                patientInfo.setAge(rs.getInt(&quot;age&quot;));</span>
+<span class="nc" id="L356">                patientInfo.setDate(rs.getString(&quot;date&quot;));</span>
+<span class="nc" id="L357">                patientInfo.setTime(rs.getString(&quot;time&quot;));</span>
+<span class="nc" id="L358">                patientInfo.setEmail(rs.getString(&quot;email&quot;));</span>
+<span class="nc" id="L359">                patientInfo.setGender(rs.getString(&quot;gender&quot;));</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">                if(!patientInfo.equals(null)){</span>
+                    
+<span class="nc" id="L362">                    patientAppointedList.add(patientInfo);</span>
+                }
+                
+<span class="nc" id="L365">            }</span>
+            
+<span class="nc" id="L367">        } catch (Exception ex) {</span>
+<span class="nc" id="L368">            System.out.println(&quot;Exception found in 'getting Appointment Patient info'&quot; + ex);</span>
+        } finally {
+<span class="nc bnc" id="L370" title="All 6 branches missed.">            if (stmt != null) {</span>
+              //
+            }
+        }
+
+<span class="nc" id="L375">        return patientAppointedList;</span>
+    }
+     
+    public ArrayList prediction(String a,String b,String c,String d, String e, String age)
+    {
+<span class="nc" id="L380">         ArrayList&lt;String&gt;result=new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L381">         ArrayList&lt;String&gt;resultids=new ArrayList&lt;String&gt;();</span>
+		try
+		{
+<span class="nc" id="L384">                    System.out.println(&quot;symptoms are :&quot;+a+b+c+d+e);</span>
+<span class="nc" id="L385">			Connection con=ConnectDB.connectToDB();	</span>
+<span class="nc" id="L386">                        Statement s = con.createStatement();</span>
+<span class="nc" id="L387">			String query = null;</span>
+<span class="nc" id="L388">			ResultSet rs = null;</span>
+			
+<span class="nc" id="L390">                        ArrayList&lt;String&gt; diseaseId=new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L391">                        ArrayList&lt;Double&gt;diseaseCount=new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L392">                        ArrayList&lt;Double&gt;diseaseProbability=new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L393">                        ArrayList&lt;Double&gt;symptomCount=new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L394">                        ArrayList&lt;Double&gt;symptomProbability=new ArrayList&lt;Double&gt;();</span>
+                       
+<span class="nc" id="L396">                        query=&quot;SELECT  DISTINCT DiseaseID FROM symptomdisease&quot;;</span>
+<span class="nc" id="L397">                        s.executeQuery(query);</span>
+<span class="nc" id="L398">                        rs=s.getResultSet();</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">                        while(rs.next()){</span>
+<span class="nc" id="L400">                        diseaseId.add(rs.getString(&quot;DiseaseID&quot;));</span>
+                        }
+<span class="nc bnc" id="L402" title="All 2 branches missed.">                        for(int i=0;i&lt;diseaseId.size();i++){</span>
+                            //System.out.println(diseaseId.get(i));
+<span class="nc" id="L404">                        query =&quot;SELECT  COUNT(*) FROM symptomdisease WHERE (DiseaseID = '&quot;+diseaseId.get(i)+&quot;') &quot;;</span>
+<span class="nc" id="L405">			s.execute(query);</span>
+<span class="nc" id="L406">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L408">			diseaseCount.add(Double.parseDouble(rs.getString(1)));</span>
+                                                   
+                        }
+                       
+                        
+<span class="nc" id="L413">			query = &quot;SELECT     COUNT(*)  FROM  symptomdisease &quot;;</span>
+<span class="nc" id="L414">			s.execute(query);</span>
+<span class="nc" id="L415">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L416" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L417">			n = Double.parseDouble(rs.getString(1)); </span>
+                        
+<span class="nc bnc" id="L419" title="All 2 branches missed.">                        for(int i=0;i&lt;diseaseId.size();i++){</span>
+<span class="nc" id="L420">                            diseaseProbability.add((diseaseCount.get(i))/n);</span>
+                        }
+                      //  System.out.println(&quot;Disease Probablility is:&quot;+diseaseProbability);
+			
+<span class="nc bnc" id="L424" title="All 2 branches missed.">			for(int i=0;i&lt;diseaseId.size();i++){</span>
+                            
+<span class="nc" id="L426">                         symptomCount.add(pfind(a,b,c,d,e,age, &quot;&quot;+diseaseId.get(i)+&quot;&quot;));</span>
+                            
+                        }
+<span class="nc" id="L429">                  System.out.println(&quot;symptom Probablility is:&quot;+symptomCount);       </span>
+<span class="nc bnc" id="L430" title="All 2 branches missed.">                        for(int i=0;i&lt;diseaseId.size();i++){</span>
+<span class="nc" id="L431">                         symptomProbability.add(symptomCount.get(i)*diseaseProbability.get(i));</span>
+                            
+                        }
+			// System.out.println(&quot;final  Probablility is:&quot;+symptomProbability);
+                        
+<span class="nc" id="L436">                        double largest=symptomProbability.get(0);</span>
+                      
+<span class="nc" id="L438">                       ArrayList&lt;Integer&gt;index=new ArrayList&lt;Integer&gt;();</span>
+			
+<span class="nc bnc" id="L440" title="All 2 branches missed.">			for(int i=0; i&lt;symptomProbability.size();++i){</span>
+<span class="nc bnc" id="L441" title="All 2 branches missed.">                        if(symptomProbability.get(i)&gt;=largest)</span>
+                        {
+<span class="nc" id="L443">                            largest =(symptomProbability.get(i));</span>
+                                                     
+                        }
+                        
+                        }
+<span class="nc bnc" id="L448" title="All 2 branches missed.">                        for(int i=0;i&lt;symptomProbability.size();i++){</span>
+<span class="nc bnc" id="L449" title="All 2 branches missed.">                            if(symptomProbability.get(i)==largest){</span>
+<span class="nc" id="L450">                                index.add(i);</span>
+                            }
+                       
+                        }
+<span class="nc bnc" id="L454" title="All 2 branches missed.">                         for(int i=0;i&lt;index.size();i++){</span>
+                            // System.out.println(&quot;You are suffering from:&quot;+diseaseId.get(index.get(i)));
+<span class="nc" id="L456">                             resultids.add(diseaseId.get(index.get(i)));</span>
+                        }
+<span class="nc bnc" id="L458" title="All 2 branches missed.">                      for(int i=0;i&lt;index.size();i++){</span>
+                            //System.out.println(diseaseId.get(i));
+<span class="nc" id="L460">                        query =&quot;SELECT DiseaseName FROM diseaseid WHERE DiseaseId = '&quot;+resultids.get(i)+&quot;' &quot;;</span>
+<span class="nc" id="L461">			s.execute(query);</span>
+<span class="nc" id="L462">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L463" title="All 2 branches missed.">			while(rs.next()){</span>
+                            
+<span class="nc" id="L465">                            result.add(rs.getString(&quot;DiseaseName&quot;));</span>
+                        }
+                      }
+		}
+<span class="nc" id="L469">		catch(Exception ex)</span>
+		{
+<span class="nc" id="L471">			System.out.println(&quot;Exception in prediction method:&quot;+ ex);</span>
+<span class="nc" id="L472">		}</span>
+               // System.out.println(result);
+<span class="nc" id="L474">                return result;</span>
+	}
+
+    public static double pfind(String s1,String s2,String s3,String s4, String s5,String age_group, String disease)
+	{
+<span class="nc" id="L479">		double ans = 0;</span>
+		try{
+			
+			
+<span class="nc" id="L483">			Connection con = ConnectDB.connectToDB();</span>
+<span class="nc" id="L484">			Statement s = con.createStatement();</span>
+<span class="nc" id="L485">			String query = null;</span>
+<span class="nc" id="L486">			ResultSet rs = null;</span>
+<span class="nc" id="L487">		        double a=0.0 , b=0.0 , c=0.0 , d=0.0 , e=0.0, f=0.0, total=0.0;</span>
+			
+<span class="nc" id="L489">			query =&quot;SELECT    COUNT(*) FROM symptomdisease WHERE Symptom1 = '&quot;+ s1 + &quot;' AND DiseaseID = '&quot; +disease+&quot;' &quot;;</span>
+<span class="nc" id="L490">			s.execute(query);</span>
+<span class="nc" id="L491">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L492" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L493">			a=Double.parseDouble(rs.getString(1));</span>
+                        // System.out.println(&quot;a is&quot;+a+&quot;with disease&quot;+disease);
+			
+<span class="nc" id="L496">			query =&quot;SELECT    COUNT(*) FROM symptomdisease WHERE   Symptom2 = '&quot;+ s2 + &quot;'  AND DiseaseID = '&quot; +disease+&quot;' &quot;;</span>
+<span class="nc" id="L497">			s.execute(query);</span>
+<span class="nc" id="L498">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L500">			b=Double.parseDouble(rs.getString(1));</span>
+                         //System.out.println(&quot;b is&quot;+b+&quot;with disease&quot;+disease);
+                         
+<span class="nc" id="L503">         		query =&quot;SELECT    COUNT(*) FROM symptomdisease WHERE   Symptom3 = '&quot;+ s3 + &quot;'  AND DiseaseID = '&quot; +disease+&quot;' &quot;;</span>
+<span class="nc" id="L504">			s.execute(query);</span>
+<span class="nc" id="L505">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L506" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L507">			c=Double.parseDouble(rs.getString(1));</span>
+                         //System.out.println(&quot;c is&quot;+c+&quot;with disease&quot;+disease);
+			
+<span class="nc" id="L510">                        query =&quot;SELECT    COUNT(*) FROM symptomdisease WHERE  Symptom4 = '&quot;+ s4 + &quot;' AND DiseaseID = '&quot; +disease+&quot;' &quot;;</span>
+<span class="nc" id="L511">			s.execute(query);</span>
+<span class="nc" id="L512">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L513" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L514">			d=Double.parseDouble(rs.getString(1)); </span>
+                        //System.out.println(&quot;d is&quot;+d+&quot;with disease&quot;+disease);
+                       
+<span class="nc" id="L517">                        query =&quot;SELECT    COUNT(*) FROM symptomdisease WHERE  Symptom5 = '&quot;+ s5 + &quot;' AND DiseaseID = '&quot; +disease+&quot;' &quot;;</span>
+<span class="nc" id="L518">			s.execute(query);</span>
+<span class="nc" id="L519">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L520" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L521">			e=Double.parseDouble(rs.getString(1)); </span>
+                        //System.out.println(&quot;d is&quot;+d+&quot;with disease&quot;+disease);
+                        
+<span class="nc" id="L524">                        query =&quot;SELECT    COUNT(*) FROM symptomdisease WHERE  AgeGroup = '&quot;+ age_group + &quot;' AND DiseaseID = '&quot; +disease+&quot;'&quot;;</span>
+<span class="nc" id="L525">			s.execute(query);</span>
+<span class="nc" id="L526">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L527" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L528">			f=Double.parseDouble(rs.getString(1)); </span>
+                        //System.out.println(&quot;d is&quot;+d+&quot;with disease&quot;+disease);
+                        
+<span class="nc" id="L531">			query =&quot;SELECT    COUNT(*) FROM symptomdisease WHERE   (DiseaseID = '&quot; +disease+&quot;') &quot;;</span>
+<span class="nc" id="L532">			s.execute(query);</span>
+<span class="nc" id="L533">			rs= s.getResultSet();</span>
+<span class="nc bnc" id="L534" title="All 2 branches missed.">			if(rs.next())</span>
+<span class="nc" id="L535">			total=Double.parseDouble(rs.getString(1)); </span>
+                        //System.out.println(&quot;total is&quot;+total);
+                       
+<span class="nc" id="L538">			ans = (a /total)  + (b /total) + (c /total) + (d /total)+ (e /total)+ (f /total) ;</span>
+			//System.out.println(&quot;answer is: &quot;+ ans);
+		}
+<span class="nc" id="L541">		catch(Exception e)</span>
+		{
+<span class="nc" id="L543">			System.out.println(&quot;Exception:&quot;+ e);</span>
+<span class="nc" id="L544">		}</span>
+<span class="nc" id="L545">		return ans;</span>
+	}
+    
+    public int insertAppointmentDetails(Appointment obj)
+    {
+      
+<span class="nc" id="L551">        int j=0;</span>
+        try
+        {
+<span class="nc" id="L554">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L555">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L556">            String query=&quot;insert into appointment(name,email,date,time,gender,docUserName,age) values('&quot;+obj.getName()+&quot;','&quot;+obj.getEmail()+&quot;','&quot;+obj.getDate()+&quot;','&quot;+obj.getTime()+&quot;','&quot;+obj.getGender()+&quot;', '&quot;+obj.getDocUserName()+&quot;', '&quot;+obj.getAge()+&quot;')&quot;;</span>
+<span class="nc" id="L557">            j=stmt.executeUpdate(query);   </span>
+        }
+<span class="nc" id="L559">        catch(Exception ex)</span>
+        {
+<span class="nc" id="L561">            System.out.println(&quot;Exception found in 'insert Appointment Details'&quot; + ex);</span>
+<span class="nc" id="L562">        }</span>
+        
+<span class="nc bnc" id="L564" title="All 2 branches missed.">        if (j&gt;0)</span>
+        {
+<span class="nc" id="L566">            i=i+1;</span>
+        }
+        else
+        {
+<span class="nc" id="L570">            System.out.println(&quot;NOT inserted Patient's details in Appointment table&quot;);</span>
+        }
+<span class="nc" id="L572">        return i;</span>
+    }
+    
+     
+      
+        
+    public PatientBean getPatientAge(String UserName)
+            
+    {
+<span class="nc" id="L581">        PatientBean obj =new PatientBean();</span>
+
+        try
+        {
+<span class="nc" id="L585">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L586">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L587">            String query=&quot;select * from patient where UserName = '&quot;+UserName+&quot;'&quot;;</span>
+<span class="nc" id="L588">            ResultSet rs= stmt.executeQuery(query);</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">            while(rs.next())</span>
+            {
+<span class="nc" id="L591">                int age= rs.getInt(&quot;Age&quot;);</span>
+<span class="nc" id="L592">                obj.setAge(age);</span>
+<span class="nc" id="L593">            }</span>
+        }
+<span class="nc" id="L595">        catch(Exception ex)</span>
+        {
+<span class="nc" id="L597">            System.out.println(&quot;Exception found in 'getPatientAge Details'&quot; + ex);</span>
+<span class="nc" id="L598">        }</span>
+        
+      
+<span class="nc" id="L601">        return obj;</span>
+    }
+    
+    public String getDoctorEmail(String UserName)
+            
+    {
+<span class="nc" id="L607">        DoctorBean obj =new DoctorBean();</span>
+<span class="nc" id="L608">        String email = &quot;&quot;;</span>
+        try
+        {
+<span class="nc" id="L611">            Connection con=ConnectDB.connectToDB();</span>
+<span class="nc" id="L612">            Statement stmt=con.createStatement();</span>
+<span class="nc" id="L613">            String query=&quot;select * from doctor where UserName = '&quot;+UserName+&quot;'&quot;;</span>
+<span class="nc" id="L614">            ResultSet rs= stmt.executeQuery(query);</span>
+<span class="nc bnc" id="L615" title="All 2 branches missed.">            while(rs.next())</span>
+            {
+<span class="nc" id="L617">                email= rs.getString(&quot;Email&quot;);</span>
+<span class="nc" id="L618">                obj.setEmail(email);</span>
+            }
+        }
+<span class="nc" id="L621">        catch(Exception ex)</span>
+        {
+<span class="nc" id="L623">            System.out.println(&quot;Exception found in 'getDoctor Email Details'&quot; + ex);</span>
+<span class="nc" id="L624">        }</span>
+        
+      
+<span class="nc" id="L627">        return email;</span>
+    }
+    
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DocRegPageServlet.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;HealthPrediction&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">com</a> &gt; <span class="el_source">DocRegPageServlet.java</span></div><h1>DocRegPageServlet.java</h1><pre class="source lang-java linenums">
+package com;
+
+import Service.Service;
+import bean.DoctorBean;
+import bean.LoginBean;
+import bean.PatientBean;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author sravani
+ */
+<span class="nc" id="L19">public class DocRegPageServlet extends HttpServlet {</span>
+
+  
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L24">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span>
+<span class="nc" id="L25">      try (PrintWriter out = response.getWriter()) {</span>
+           
+<span class="nc" id="L27">        String name = request.getParameter(&quot;name&quot;);</span>
+<span class="nc" id="L28">        String email = request.getParameter(&quot;email&quot;);</span>
+<span class="nc" id="L29">        String availabilityHours = request.getParameter(&quot;avail&quot;);</span>
+<span class="nc" id="L30">        String specializationArea= request.getParameter(&quot;specialization&quot;);</span>
+<span class="nc" id="L31">        String clinicAddress = request.getParameter(&quot;address&quot;);</span>
+<span class="nc" id="L32">        String userName = request.getParameter(&quot;userName&quot;);</span>
+<span class="nc" id="L33">        String password = request.getParameter(&quot;confirmpassword&quot;);</span>
+<span class="nc" id="L34">        String gender = request.getParameter(&quot;gender&quot;);</span>
+<span class="nc" id="L35">         String phonenumber = request.getParameter(&quot;phonenumber&quot;);</span>
+         
+<span class="nc" id="L37">       DoctorBean doctor=new DoctorBean();</span>
+<span class="nc" id="L38">       doctor.setName(name);</span>
+<span class="nc" id="L39">       doctor.setEmail(email);</span>
+<span class="nc" id="L40">       doctor.setClinicAddress(clinicAddress);</span>
+<span class="nc" id="L41">       doctor.setAvailabilityHour(availabilityHours);</span>
+<span class="nc" id="L42">       doctor.setSpecialization(specializationArea);</span>
+<span class="nc" id="L43">       doctor.setUserName(userName);</span>
+<span class="nc" id="L44">       doctor.setPhoneNumber(phonenumber);</span>
+<span class="nc" id="L45">       doctor.setGender(gender);</span>
+            
+      
+        
+<span class="nc" id="L49">        LoginBean obj = new LoginBean();</span>
+<span class="nc" id="L50">        obj.setUserName(userName);</span>
+<span class="nc" id="L51">        obj.setPassword(password);</span>
+<span class="nc" id="L52">        obj.setType(3);</span>
+        
+<span class="nc" id="L54">        Service s = new Service();</span>
+        
+<span class="nc" id="L56">        int i = s.insertDoctorLoginDetails(obj);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (i&gt;0)</span>
+            {
+<span class="nc" id="L59">                int x = s.insertDoctor(doctor);</span>
+<span class="nc" id="L60">                String message=&quot;Please log in now !&quot;;</span>
+<span class="nc" id="L61">                response.sendRedirect(&quot;loginPage.jsp?message=&quot;+message);</span>
+                
+<span class="nc" id="L63">            }</span>
+            else
+            {
+<span class="nc" id="L66">                String message=&quot;Please re-enter UserName and password !&quot;;</span>
+<span class="nc" id="L67">                response.sendRedirect(&quot;DocRegPage.jsp?message=&quot;+message);</span>
+            }
+        
+<span class="nc bnc" id="L70" title="All 8 branches missed.">        }</span>
+<span class="nc" id="L71">    }</span>
+
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;HttpServlet methods. Click on the + sign on the left to edit the code.&quot;&gt;
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L85">        processRequest(request, response);</span>
+<span class="nc" id="L86">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+<span class="nc" id="L99">        processRequest(request, response);</span>
+<span class="nc" id="L100">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L109">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

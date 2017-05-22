@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="HealthPrediction" >
+
+      
+    <test name="Service suite" preserve-order="true" allow-return-values="true">
+        
+        <parameter name = "USERNAME"  value = "test2"/>
+            <parameter name = "PASSWORD" value = "test2"/>
+        <classes>
+            <class name = "Service.TestNG.loginTestTestng" />
+        </classes>
+        
+    </test>
+
+</suite>
